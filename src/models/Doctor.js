@@ -6,7 +6,10 @@ const doctorSchema = new Schema({
     firstName: String,
     lastName: String,
     specialty: String,
-    IDDocument: Number,
+    IDDocument: String,
+    address: String,
+    city: String,
+    country: String,
     location: {
         type: { type: String },
         coordinates: []

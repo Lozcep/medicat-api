@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema
 
 const credentialSchema = new Schema({
-    IDDoctor: String,
+    IDDoctor:String,
+    IDDocument: String,
     email: String,
     password: String,
     createAt: { type: Date, default: Date.now },

@@ -2,9 +2,10 @@ const express = require('express')
 const router = express.Router()
 const Joi = require('joi')
 const bcrypt = require('bcrypt');
-//const authService = require('../../services/authService')
+const authService = require('../services/authService')
 
-const Credentials = require('../models/Credentials')
+const Credentials = require('../models/Credentials');
+const Doctor = require('../models/Doctor');
 
 router.post('/', async(req, res)=>{  
 
@@ -20,9 +21,9 @@ router.post('/', async(req, res)=>{
             password : req.body.password
         }
         
-        const value = await schema.validateAsync({ email: crendentials.email, password: crendentials.password })
+        await schema.validateAsync({ email: crendentials.email, password: crendentials.password })
 
-        const login = await (await Credentials.findOne({ email: crendentials.email}))
+        const login = await Credentials.findOne({ email: crendentials.email})
         console.log(login)
          
         if (!login) {
@@ -32,12 +33,17 @@ router.post('/', async(req, res)=>{
                 message: `El correo ${crendentials.email} no está registrado`})            
         } else {
             const comparedPassword = await bcrypt.compare( crendentials.password, login.password)
-          //  const token = authService.JWTIssuer({id : login._id}, '1 day') 
+            const token = authService.JWTIssuer({id : login.IDDoctor}, '1 day') 
+            const doctor = await Doctor.findById(login.IDDoctor)
             if(comparedPassword){
                 console.log(`inició sesión con '${crendentials.email}'`)            
                 res.status(200).json({  
                             status: 200,
-                          //  token: token
+                            data:
+                                {
+                                    token: token,
+                                    doctor
+                                }
                             })
             }else{
                 console.log(`contraseña incorrecta`);            

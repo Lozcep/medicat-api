@@ -4,8 +4,6 @@ const router = express.Router()
 const Joi = require('joi')
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
-const myPlaintextPassword = 's0/\/\P4$$w0rD';
-const someOtherPlaintextPassword = 'not_bacon';
  
 const Doctor = require('../models/Doctor')
 const Credentials = require('../models/Credentials')
@@ -23,9 +21,10 @@ router.post('/', async (req, res)=>{
         }); 
 
         credentials = {
-            IDDoctor: "",
+            IDDocument: req.body.IDDocument,
             email: req.body.email,
             password: req.body.password,
+            IDDoctor:""
         }
 
         const value = await schema.validateAsync({ email: credentials.email, password: credentials.password, repeatPassword: req.body.repeatPassword })
@@ -49,9 +48,12 @@ router.post('/', async (req, res)=>{
                     lastName: req.body.lastName,
                     specialty: req.body.specialty,
                     IDDocument: req.body.IDDocument,
+                    address: req.body.address,
+                    city: req.body.city,
+                    country: req.body.country,
                     location: {
                         type: 'Point',
-                        coordinates: [3, 4]  // coordinates: [lng, lat]
+                        coordinates: [lng, lat]  // coordinates: [lng, lat]
                         }                
                 }
   
