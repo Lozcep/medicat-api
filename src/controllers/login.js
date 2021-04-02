@@ -47,7 +47,7 @@ router.post('/', async(req, res)=>{
                             })
             }else{
                 console.log(`contraseña incorrecta`);            
-                res.status(401).send({ 
+                res.status(401).json({ 
                                         message: `correo o contraseña incorrecta`
                                     })
             }

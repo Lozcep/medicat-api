@@ -6,6 +6,7 @@ const cors = require('cors')
 const home = require ('./src/controllers')
 const doctorSignUp = require('./src/controllers/signup') 
 const doctorLogin = require('./src/controllers/login') 
+const patient = require('./src/controllers/patients')
 
 const connectDataBase = require('./config/database');
 
@@ -18,6 +19,7 @@ app.use(cors())
 app.use('/', home)
 app.use('/doctor/signup', doctorSignUp )
 app.use('/doctor/login', doctorLogin )
+app.use('/patient', patient )
 
 const port = process.env.PORT  || 3001
 
