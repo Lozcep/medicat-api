@@ -1,15 +1,30 @@
-require('dotenv').config()
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema
+require("dotenv").config();
+const { Schema, model } = require("mongoose");
 
-const credentialSchema = new Schema({
-    IDDoctor:String,
-    IDDocument: String,
-    email: String,
-    password: String,
-    createAt: { type: Date, default: Date.now },
-  },  {  versionKey: false } );
+const credentialSchema = new Schema(
+  {
+    IDDoctor: {
+      type: Number,
+    },
+    IDDocument: {
+      type: Number,
+      required: [true, "La cédula es obligatoria"],
+    },
+    email: {
+      type: String,
+      required: [true, "El correo es obligatorio"],
+      unique: true,
+    },
+    password: {
+      type: String,
+      required: [true, "La contraseña es obligatoria"],
+    },
+    createAt: {
+      type: Date,
+      default: Date.now,
+    },
+  },
+  { versionKey: false }
+);
 
-const Credential = mongoose.model('Credential', credentialSchema)
-
-module.exports = Credential
+module.exports = model("Credential", credentialSchema);
