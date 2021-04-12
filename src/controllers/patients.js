@@ -1,11 +1,9 @@
-const express = require("express");
-const router = express.Router();
-const authToken = require("../middlewares/authToken");
+const { response, request } = require('express');
 
-const Doctor = require("../models/Doctor");
+
 const Patient = require("../models/Patient");
 
-router.post("/", authToken, async (req, res) => {
+const addPatient = async (req = request, res = response) => {
   try {
     let patient = {
       doctorId: req.doctorId,
@@ -31,9 +29,9 @@ router.post("/", authToken, async (req, res) => {
       patient: newPatient,
     });
   }
-});
+}
 
-router.get("/", authToken, async (req, res) => {
+const getPatients = async (req = request, res = response) => {
   try {
     const patients = await Patient.find({ doctorId: req.doctorId });
 
@@ -49,6 +47,9 @@ router.get("/", authToken, async (req, res) => {
       message: "Hubo un error al buscar los pacientes",
     });
   }
-});
+}
 
-module.exports = router;
+module.exports = {
+  getPatients,
+  addPatient
+}
